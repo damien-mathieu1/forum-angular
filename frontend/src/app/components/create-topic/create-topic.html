@@ -1,0 +1,84 @@
+<div class="create-topic-container">
+  <mat-card class="create-topic-card">
+    <mat-card-header>
+      <mat-card-title>Créer un nouveau sujet</mat-card-title>
+      <mat-card-subtitle>Rédigez le titre de votre sujet de discussion</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="topic-form">
+        <!-- Error Message -->
+        @if (error()) {
+          <div class="error-message">
+            <mat-icon>error_outline</mat-icon>
+            <p>{{ error() }}</p>
+          </div>
+        }
+
+        <!-- Title Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Titre du sujet</mat-label>
+          <input 
+            matInput 
+            placeholder="Donnez un titre à votre sujet" 
+            formControlName="title"
+            [maxlength]="200"
+            autocomplete="off"
+            #titleInput
+          >
+          
+          @if (title?.value) {
+            <button 
+              matSuffix 
+              mat-icon-button 
+              type="button" 
+              (click)="form.patchValue({ title: '' })"
+              aria-label="Effacer"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+          
+          <mat-hint align="end">{{ title?.value?.length || 0 }}/200</mat-hint>
+          
+          @if (title?.touched && title?.errors) {
+            <mat-error>
+              @if (title?.errors?.['required']) {
+                Le titre est obligatoire
+              } @else if (title?.errors?.['minlength']) {
+                Le titre doit faire au moins 3 caractères
+              } @else if (title?.errors?.['maxlength']) {
+                Le titre ne peut pas dépasser 200 caractères
+              }
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button 
+            mat-button 
+            type="button" 
+            (click)="onCancel()"
+            [disabled]="loading()"
+          >
+            Annuler
+          </button>
+          
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit"
+            [disabled]="form.invalid || loading()"
+          >
+            @if (loading()) {
+              <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+            } @else {
+              Créer le sujet
+            }
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,91 @@
+/* Global Styles */
+:root {
+  --primary-color: #1976d2;
+  --primary-dark: #1565c0;
+  --text-color: #333;
+  --text-light: #666;
+  --background: #fff;
+  --white: #fff;
+  --error: #d32f2f;
+}
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  color: var(--text-color);
+  background-color: var(--background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* App Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 0 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 4rem;
+    margin: 0;
+  }
+}
+
+.app-content {
+  flex: 1;
+  width: 100%;
+}
+
+/* Utility Classes */
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-content {
+    padding: 1rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.25rem;
+    line-height: 3.5rem;
+  }
+}

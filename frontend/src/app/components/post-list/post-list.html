@@ -1,0 +1,150 @@
+<div class="post-list-container">
+  <!-- Loading State -->
+  @if (loading()) {
+  <div class="loading-spinner">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+  <div class="error-message">
+    <mat-icon color="warn">error_outline</mat-icon>
+    <p>{{ error() }}</p>
+  </div>
+  }
+
+  <!-- Topic Header -->
+  @if (topic()) {
+  <div class="topic-header">
+    <button mat-button (click)="onBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Retour aux sujets
+    </button>
+    <h1>{{ topic()?.title }}</h1>
+    <div class="topic-meta">
+      <span class="created-by">
+        <mat-icon>person</mat-icon>
+        {{ topic()?.expand?.created_by?.name || 'Utilisateur inconnu' }}
+      </span>
+      <span class="created-date">
+        <mat-icon>schedule</mat-icon>
+        {{ topic()?.created ? formatDate(topic()!.created) : 'Date inconnue' }}
+      </span>
+    </div>
+  </div>
+  }
+
+  <!-- New Post Form -->
+  <mat-card class="new-post-card">
+    <mat-card-header>
+      <mat-card-title>Nouveau message</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (!showPostForm) {
+      <button mat-stroked-button color="primary" (click)="showPostForm = true" class="full-width">
+        <mat-icon>add_comment</mat-icon>
+        Écrire un message
+      </button>
+      } @else {
+      <form (submit)="$event.preventDefault(); onSubmitPost()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Votre message</mat-label>
+          <textarea matInput [formControl]="newPostContent" rows="2" placeholder="Écrivez votre message ici..."
+            cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="4">
+          </textarea>
+          @if (newPostContent.hasError('required')) {
+          <mat-error>Le message est requis</mat-error>
+          }
+          @if (newPostContent.hasError('maxlength')) {
+          <mat-error>Le message ne doit pas dépasser 2000 caractères</mat-error>
+          }
+        </mat-form-field>
+        <div class="form-actions">
+          <button mat-button type="button" (click)="showPostForm = false">Annuler</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="newPostContent.invalid || loading()">
+            <mat-icon>send</mat-icon>
+            Publier
+          </button>
+        </div>
+      </form>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Posts List -->
+  <div class="posts-container">
+    @if (posts().length > 0) {
+    @for (post of posts(); track post.id) {
+    <mat-card class="post-card">
+      <mat-card-header>
+        <div mat-card-avatar class="post-avatar">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <mat-card-title>
+          {{ post.expand?.created_by?.name || 'Utilisateur inconnu' }}
+          @if (isCurrentUserPostAuthor(post)) {
+          <span class="badge-you">(Vous)</span>
+          }
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ post.created ? formatDate(post.created) : 'Date inconnue' }}
+          @if (post.updated && post.updated !== post.created) {
+          <span class="edited-badge">(modifié)</span>
+          }
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        @if (editingPostId === post.id) {
+        <div class="edit-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <textarea matInput [formControl]="editPostContent" rows="3" cdkTextareaAutosize cdkAutosizeMinRows="3"
+              cdkAutosizeMaxRows="6">
+                  </textarea>
+            @if (editPostContent.hasError('required')) {
+            <mat-error>Le message est requis</mat-error>
+            }
+            @if (editPostContent.hasError('maxlength')) {
+            <mat-error>Le message ne doit pas dépasser 2000 caractères</mat-error>
+            }
+          </mat-form-field>
+          <div class="edit-actions">
+            <button mat-button (click)="saveEdit(post.id)" [disabled]="editPostContent.invalid">
+              <mat-icon>save</mat-icon>
+              Enregistrer
+            </button>
+            <button mat-button (click)="cancelEditing()">
+              <mat-icon>cancel</mat-icon>
+              Annuler
+            </button>
+          </div>
+        </div>
+        } @else {
+        <p class="post-content">{{ post.content }}</p>
+        }
+      </mat-card-content>
+
+      @if (isCurrentUserPostAuthor(post) && editingPostId !== post.id) {
+      <mat-card-actions align="end" class="post-actions">
+        <button mat-button color="accent" (click)="startEditing(post)">
+          <mat-icon>edit</mat-icon>
+          Modifier
+        </button>
+        <button mat-button color="warn" (click)="confirmDelete(post.id)">
+          <mat-icon>delete</mat-icon>
+          Supprimer
+        </button>
+      </mat-card-actions>
+      }
+    </mat-card>
+    }
+    } @else if (!loading()) {
+    <div class="no-posts">
+      <mat-icon>forum</mat-icon>
+      <h3>Aucun message pour le moment</h3>
+      <p>Soyez le premier à participer à la discussion !</p>
+    </div>
+    }
+  </div>
+</div>

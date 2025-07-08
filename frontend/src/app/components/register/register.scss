@@ -1,0 +1,151 @@
+// Register container
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 1rem;
+}
+
+// Card styles
+.register-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: white;
+
+  // Card header
+  mat-card-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    display: block;
+  }
+
+  // Card title
+  mat-card-title {
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+}
+
+// Form elements
+.full-width {
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+
+  // Input field styling
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  .mat-form-field-outline {
+    color: #e0e0e0;
+  }
+
+  .mat-form-field-outline-thick {
+    color: #3f51b5;
+  }
+
+  // Label styling
+  .mat-form-field-label {
+    color: #666;
+  }
+
+  // Input text color
+  input.mat-input-element {
+    color: #333;
+  }
+}
+
+// Error message
+.error-message {
+  color: #f44336;
+  margin: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+// Button container
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+// Register button
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+
+  &:hover:not([disabled]) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active:not([disabled]) {
+    transform: translateY(0);
+  }
+}
+
+// Spinner animation
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Login link
+.login-link {
+  text-align: center;
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+
+  a {
+    color: #3f51b5;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #303f9f;
+      text-decoration: underline;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .register-card {
+    padding: 1.5rem;
+  }
+
+  .register-card mat-card-title {
+    font-size: 1.5rem;
+  }
+}

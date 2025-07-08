@@ -1,0 +1,58 @@
+<div class="app-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="app-toolbar">
+        @if (isMobile()) {
+        <button mat-icon-button (click)="toggleSidenav()" class="sidenav-toggle" aria-label="Toggle navigation menu">
+            <mat-icon>menu</mat-icon>
+        </button>
+        }
+
+        <a routerLink="/topics" class="app-title">
+            <mat-icon>forum</mat-icon>
+            <span>Forum Polytech</span>
+        </a>
+
+        <span class="spacer"></span>
+
+        @if (currentUser() && currentUser().isAuthenticated) {
+        <div class="user-info">
+            <span>{{ currentUser().user?.email || 'Utilisateur' }}</span>
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User menu">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+
+            <mat-menu #userMenu="matMenu" class="user-menu">
+                <button mat-menu-item (click)="onLogout()" style="background-color: #fff;">
+                    <mat-icon>logout</mat-icon>
+                    <span>Déconnexion</span>
+                </button>
+            </mat-menu>
+        </div>
+        }
+    </mat-toolbar>
+
+    <!-- Main content -->
+    <div class="app-content">
+        <!-- Sidenav -->
+        <mat-sidenav-container class="sidenav-container">
+            <mat-sidenav #sidenav [mode]="isMobile() ? 'over' : 'side'" [opened]="sidenavOpened()"
+                (closed)="sidenavOpened.set(false)" class="app-sidenav" [class.mat-sidenav-opened]="sidenavOpened()">
+                <mat-nav-list>
+                    @for (item of navItems; track item.path) {
+                    <a mat-list-item (click)="navigate(item.path)" [class.active]="router.url === item.path">
+                        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+                        <span matListItemTitle>{{ item.label }}</span>
+                    </a>
+                    }
+                </mat-nav-list>
+            </mat-sidenav>
+
+            <!-- Main content area -->
+            <mat-sidenav-content class="main-content">
+                <div class="content-container">
+                    <router-outlet></router-outlet>
+                </div>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    </div>
+</div>

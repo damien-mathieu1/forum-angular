@@ -1,0 +1,66 @@
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>Créer un compte</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nom d'utilisateur :</mat-label>
+          <input matInput [(ngModel)]="username" name="username" type="text" required minlength="3"
+            #usernameInput="ngModel">
+          @if (usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)) {
+          <mat-error>Le nom d'utilisateur doit contenir au moins 3 caractères</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email :</mat-label>
+          <input matInput [(ngModel)]="email" name="email" type="email" required email #emailInput="ngModel">
+          @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+          <mat-error>Veuillez entrer un email valide</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mot de passe :</mat-label>
+          <input matInput [(ngModel)]="password" name="password" type="password" required minlength="6"
+            #passwordInput="ngModel">
+          @if (passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)) {
+          <mat-error>Le mot de passe doit contenir au moins 6 caractères</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirmer le mot de passe :</mat-label>
+          <input matInput [(ngModel)]="confirmPassword" name="confirmPassword" type="password" required
+            #confirmPasswordInput="ngModel">
+        </mat-form-field>
+
+        @if (error()) {
+        <div class="error-message">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ error() }}</span>
+        </div>
+        }
+
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit" [disabled]="loading() || !registerForm.form.valid"
+            class="register-button">
+            @if (loading()) {
+            <span class="spinner"></span>
+            <span>Inscription...</span>
+            } @else {
+            <span>S'inscrire</span>
+            }
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="login-link">
+      <p>Déjà un compte ? <a routerLink="/login">Se connecter</a></p>
+    </mat-card-actions>
+  </mat-card>
+</div>

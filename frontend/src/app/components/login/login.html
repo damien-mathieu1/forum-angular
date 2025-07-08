@@ -1,0 +1,51 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Veuillez vous authentifier :</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Entrez votre email :</mat-label>
+          <input matInput [(ngModel)]="email" name="email" type="email" required email #emailInput="ngModel">
+          @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+          <mat-error>Veuillez entrer un email valide</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Entrez votre mot de passe :</mat-label>
+          <input matInput [(ngModel)]="password" name="password" type="password" required minlength="6"
+            #passwordInput="ngModel">
+          @if (passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)) {
+          <mat-error>Le mot de passe doit contenir au moins 6 caractères</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit" [disabled]="loading() || !loginForm.form.valid"
+            class="login-button">
+            @if (loading()) {
+            <span class="spinner"></span>
+            <span>Connexion...</span>
+            } @else {
+            <span>Se connecter</span>
+            }
+          </button>
+        </div>
+
+        @if (error()) {
+        <div class="error-message">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ error() }}</span>
+        </div>
+        }
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="register-link">
+      <p>Pas encore de compte ? <a routerLink="/register">S'inscrire</a></p>
+    </mat-card-actions>
+  </mat-card>
+</div>

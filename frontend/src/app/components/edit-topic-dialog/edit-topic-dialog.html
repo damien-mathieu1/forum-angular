@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Modifier le sujet</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Titre du sujet</mat-label>
+    <input matInput [(ngModel)]="title" required>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button color="primary" [mat-dialog-close]="title" [disabled]="!title.trim()" cdkFocusInitial>
+    Enregistrer
+  </button>
+</mat-dialog-actions>
